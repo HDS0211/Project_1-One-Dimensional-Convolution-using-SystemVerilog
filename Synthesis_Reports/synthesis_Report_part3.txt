@@ -1,0 +1,822 @@
+ Design Compiler Graphical
+                            DC Ultra (TM)
+                             DFTMAX (TM)
+                         Power Compiler (TM)
+                           DesignWare (R)
+                           DC Expert (TM)
+                         Design Vision (TM)
+                          HDL Compiler (TM)
+                         VHDL Compiler (TM)
+                            DFT Compiler
+                        Library Compiler (TM)
+                         Design Compiler(R)
+
+         Version J-2014.09-SP5-2 for RHEL64 -- Jul 11, 2015
+               Copyright (c) 1988-2015 Synopsys, Inc.
+
+This software and the associated documentation are confidential and
+proprietary to Synopsys, Inc. Your use or disclosure of this software
+is subject to the terms and conditions of a written license agreement
+between you, or your company, and Synopsys, Inc.
+
+Initializing...
+##############################################
+# Setup: fill out the following parameters: name of clock signal, clock period (ns),
+# reset signal name (if used), name of top-level module, name of source file
+set CLK_NAME "clk";
+clk
+set CLK_PERIOD 1;
+1
+set RST_NAME "reset";
+reset
+set TOP_MOD_NAME "conv_128_32_opt";
+conv_128_32_opt
+set SRC_FILE [list "accumulator.sv" "control.sv" "control_acc.sv" "control_f.sv" "control_mem_rd.sv" "control_x.sv" "conv_128_32_opt.sv" "datapath.sv" "memory.sv"];
+accumulator.sv control.sv control_acc.sv control_f.sv control_mem_rd.sv control_x.sv conv_128_32_opt.sv datapath.sv memory.sv
+# If you have multiple source files, change the line above to list them all like this:
+# set SRC_FILE [list "file1.sv" "file2.sv"];
+###############################################
+source setupdc.tcl
+NangateOpenCellLibrary_typical.db dw_foundation.sldb
+file mkdir work_synth
+define_design_lib WORK -path work_synth
+1
+analyze $SRC_FILE -format sverilog
+Running PRESTO HDLC
+Searching for ./accumulator.sv
+Searching for ./control.sv
+Searching for ./control_acc.sv
+Searching for ./control_f.sv
+Searching for ./control_mem_rd.sv
+Searching for ./control_x.sv
+Searching for ./conv_128_32_opt.sv
+Searching for ./datapath.sv
+Searching for ./memory.sv
+Compiling source file ./accumulator.sv
+Compiling source file ./control.sv
+Compiling source file ./control_acc.sv
+Compiling source file ./control_f.sv
+Compiling source file ./control_mem_rd.sv
+Compiling source file ./control_x.sv
+Compiling source file ./conv_128_32_opt.sv
+Compiling source file ./datapath.sv
+Compiling source file ./memory.sv
+Presto compilation completed successfully.
+Loading db file '/home/home4/pmilder/ese507/synthesis/lib/NangateOpenCellLibrary_typical.db'
+Loading db file '/usr/local/synopsys/syn/libraries/syn/dw_foundation.sldb'
+1
+elaborate -work WORK $TOP_MOD_NAME
+Loading db file '/usr/local/synopsys/syn/libraries/syn/gtech.db'
+Loading db file '/usr/local/synopsys/syn/libraries/syn/standard.sldb'
+  Loading link library 'NangateOpenCellLibrary'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+Warning:  ./conv_128_32_opt.sv:198: unsigned to signed assignment occurs. (VER-318)
+
+Inferred memory devices in process
+        in routine conv_128_32_opt line 179 in file
+                './conv_128_32_opt.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|   conv_done_q_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully.
+Elaborated 1 design.
+Current design is now 'conv_128_32_opt'.
+Information: Building the design 'datapath' instantiated from design 'conv_128_32_opt' with
+        the parameters "DATA_N=128,FILTER_N=32,LG_DATA_N=7,LG_FILTER_N=5". (HDL-193)
+Warning:  ./datapath.sv:89: unsigned to signed assignment occurs. (VER-318)
+Presto compilation completed successfully.
+Information: Building the design 'control' instantiated from design 'conv_128_32_opt' with
+        the parameters "DATA_N=128,FILTER_N=32,CONV_N=97,LG_DATA_N=7,LG_FILTER_N=5,LG_CONV_N=7". (HDL-193)
+
+Statistics for case statements in always block at line 101 in file
+        './control.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|           102            |     no/auto      |
+===============================================
+
+Inferred memory devices in process
+        in routine control_DATA_N128_LG_DATA_N7_FILTER_N32_LG_FILTER_N5_CONV_N97_LG_CONV_N7 line 81 in file
+                './control.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|  cntrl_state_q_reg  | Flip-flop |   3   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+        in routine control_DATA_N128_LG_DATA_N7_FILTER_N32_LG_FILTER_N5_CONV_N97_LG_CONV_N7 line 91 in file
+                './control.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|   comp_cyc_q_reg    | Flip-flop |   7   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+        in routine control_DATA_N128_LG_DATA_N7_FILTER_N32_LG_FILTER_N5_CONV_N97_LG_CONV_N7 line 101 in file
+                './control.sv'.
+===========================================================================
+|    Register Name    | Type  | Width | Bus | MB | AR | AS | SR | SS | ST |
+===========================================================================
+|   cntrl_state_reg   | Latch |   3   |  Y  | N  | N  | N  | -  | -  | -  |
+===========================================================================
+Warning:  ./control.sv:101: Netlist for always_comb block contains a latch. (ELAB-974)
+Presto compilation completed successfully.
+Information: Building the design 'memory' instantiated from design 'datapath_DATA_N128_FILTER_N32_LG_DATA_N7_LG_FILTER_N5' with
+        the parameters "WIDTH=8,SIZE=128,LOGSIZE=7". (HDL-193)
+
+Inferred memory devices in process
+        in routine memory_WIDTH8_SIZE128_LOGSIZE7 line 16 in file
+                './memory.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    data_out_reg     | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+Statistics for MUX_OPs
+============================================================================
+|         block name/line           | Inputs | Outputs | # sel inputs | MB |
+============================================================================
+| memory_WIDTH8_SIZE128_LOGSIZE7/17 |  128   |    8    |      7       | N  |
+============================================================================
+Presto compilation completed successfully.
+Information: Building the design 'memory' instantiated from design 'datapath_DATA_N128_FILTER_N32_LG_DATA_N7_LG_FILTER_N5' with
+        the parameters "WIDTH=8,SIZE=32,LOGSIZE=5". (HDL-193)
+
+Inferred memory devices in process
+        in routine memory_WIDTH8_SIZE32_LOGSIZE5 line 16 in file
+                './memory.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    data_out_reg     | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+Statistics for MUX_OPs
+===========================================================================
+|         block name/line          | Inputs | Outputs | # sel inputs | MB |
+===========================================================================
+| memory_WIDTH8_SIZE32_LOGSIZE5/17 |   32   |    8    |      5       | N  |
+===========================================================================
+Presto compilation completed successfully.
+Information: Building the design 'accumulator'. (HDL-193)
+
+Inferred memory devices in process
+        in routine accumulator line 35 in file
+                './accumulator.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|   acc_data_q_reg    | Flip-flop |  21   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully.
+Information: Building the design 'control_x' instantiated from design 'control_DATA_N128_LG_DATA_N7_FILTER_N32_LG_FILTER_N5_CONV_N97_LG_CONV_N7' with
+        the parameters "DATA_N=128,LG_DATA_N=7". (HDL-193)
+
+Inferred memory devices in process
+        in routine control_x_DATA_N128_LG_DATA_N7 line 41 in file
+                './control_x.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     addr_q_reg      | Flip-flop |   7   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+        in routine control_x_DATA_N128_LG_DATA_N7 line 53 in file
+                './control_x.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    done_x_q_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully.
+Information: Building the design 'control_f' instantiated from design 'control_DATA_N128_LG_DATA_N7_FILTER_N32_LG_FILTER_N5_CONV_N97_LG_CONV_N7' with
+        the parameters "FILTER_N=32,LG_FILTER_N=5". (HDL-193)
+
+Inferred memory devices in process
+        in routine control_f_FILTER_N32_LG_FILTER_N5 line 41 in file
+                './control_f.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     addr_q_reg      | Flip-flop |   5   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+        in routine control_f_FILTER_N32_LG_FILTER_N5 line 53 in file
+                './control_f.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    done_f_q_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully.
+Information: Building the design 'control_acc' instantiated from design 'control_DATA_N128_LG_DATA_N7_FILTER_N32_LG_FILTER_N5_CONV_N97_LG_CONV_N7' with
+        the parameters "FILTER_N=32,LG_FILTER_N=5". (HDL-193)
+
+Inferred memory devices in process
+        in routine control_acc_FILTER_N32_LG_FILTER_N5 line 39 in file
+                './control_acc.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    cyc_cnt_q_reg    | Flip-flop |   5   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+        in routine control_acc_FILTER_N32_LG_FILTER_N5 line 51 in file
+                './control_acc.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    cnt_en_q_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully.
+Information: Building the design 'control_mem_rd' instantiated from design 'control_DATA_N128_LG_DATA_N7_FILTER_N32_LG_FILTER_N5_CONV_N97_LG_CONV_N7' with
+        the parameters "DATA_N=128,FILTER_N=32,LG_DATA_N=7,LG_FILTER_N=5,LG_CONV_N=7". (HDL-193)
+
+Inferred memory devices in process
+        in routine control_mem_rd_DATA_N128_LG_DATA_N7_FILTER_N32_LG_FILTER_N5_LG_CONV_N7 line 42 in file
+                './control_mem_rd.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|   rd_addr_x_q_reg   | Flip-flop |   7   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+        in routine control_mem_rd_DATA_N128_LG_DATA_N7_FILTER_N32_LG_FILTER_N5_LG_CONV_N7 line 54 in file
+                './control_mem_rd.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|   rd_addr_f_q_reg   | Flip-flop |   5   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+        in routine control_mem_rd_DATA_N128_LG_DATA_N7_FILTER_N32_LG_FILTER_N5_LG_CONV_N7 line 66 in file
+                './control_mem_rd.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+| incr_comp_cyc_q_reg | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully.
+1
+###### CLOCKS AND PORTS #######
+set CLK_PORT [get_ports $CLK_NAME]
+{clk}
+set TMP1 [remove_from_collection [all_inputs] $CLK_PORT]
+{reset s_valid_x s_data_in_x[7] s_data_in_x[6] s_data_in_x[5] s_data_in_x[4] s_data_in_x[3] s_data_in_x[2] s_data_in_x[1] s_data_in_x[0] s_valid_f s_data_in_f[7] s_data_in_f[6] s_data_in_f[5] s_data_in_f[4] s_data_in_f[3] s_data_in_f[2] s_data_in_f[1] s_data_in_f[0] m_ready_y}
+set INPUTS [remove_from_collection $TMP1 $RST_NAME]
+{s_valid_x s_data_in_x[7] s_data_in_x[6] s_data_in_x[5] s_data_in_x[4] s_data_in_x[3] s_data_in_x[2] s_data_in_x[1] s_data_in_x[0] s_valid_f s_data_in_f[7] s_data_in_f[6] s_data_in_f[5] s_data_in_f[4] s_data_in_f[3] s_data_in_f[2] s_data_in_f[1] s_data_in_f[0] m_ready_y}
+create_clock -period $CLK_PERIOD [get_ports clk]
+1
+# set delay for inputs to be 0.2ns
+set_input_delay 0.2 -max -clock clk $INPUTS
+1
+set_output_delay 0.2 -max -clock clk [all_outputs]
+1
+###### OPTIMIZATION #######
+set_max_area 0
+1
+###### RUN #####
+compile_ultra
+Information: Performing power optimization. (PWR-850)
+Alib files are up-to-date.
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | J-2014.09-DWBB_201409.5.2 |   *     |
+| Licensed DW Building Blocks        | J-2014.09-DWBB_201409.5.2 |   *     |
+============================================================================
+
+Information: Sequential output inversion is enabled.  SVF file must be used for formal verification. (OPT-1208)
+
+Information: There are 6 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+
+Loaded alib file './alib-52/NangateOpenCellLibrary_typical.db.alib'
+  Building model 'DW01_NAND2'
+Information: Ungrouping hierarchy DP0 before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy CP0 before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy DP1 before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy CP1 before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy DP0/FILTER_MEM before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy DP0/ACC before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy CP0/CNTRL_X before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy CP0/CNTRL_F before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy CP0/CNTRL_ACC before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy CP0/CNTRL_MEM_RD before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy DP1/FILTER_MEM before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy DP1/ACC before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy CP1/CNTRL_X before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy CP1/CNTRL_F before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy CP1/CNTRL_ACC before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy CP1/CNTRL_MEM_RD before Pass 1 (OPT-776)
+Information: Ungrouping 16 of 19 hierarchies before Pass 1 (OPT-775)
+Information: State dependent leakage is now switched from on to off.
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'memory_WIDTH8_SIZE128_LOGSIZE7_0'
+ Implement Synthetic for 'memory_WIDTH8_SIZE128_LOGSIZE7_0'.
+  Processing 'conv_128_32_opt'
+ Implement Synthetic for 'conv_128_32_opt'.
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+
+  Beginning Mapping Optimizations  (Ultra High effort)
+  -------------------------------
+Information: Added key list 'DesignWare' to design 'conv_128_32_opt'. (DDB-72)
+  Mapping Optimization (Phase 1)
+
+                                  TOTAL
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:13   22314.7      0.23      99.7       0.0                           465093.8438
+    0:00:14   22311.8      0.21      99.6       0.0                           465250.0000
+    0:00:14   22311.8      0.21      99.6       0.0                           465250.0000
+    0:00:14   22310.2      0.21      99.6       0.0                           465223.1562
+  Re-synthesis Optimization (Phase 1)
+  Re-synthesis Optimization (Phase 2)
+  Global Optimization (Phase 1)
+  Global Optimization (Phase 2)
+  Global Optimization (Phase 3)
+  Global Optimization (Phase 4)
+  Global Optimization (Phase 5)
+  Global Optimization (Phase 6)
+  Global Optimization (Phase 7)
+  Global Optimization (Phase 8)
+  Global Optimization (Phase 9)
+  Global Optimization (Phase 10)
+  Global Optimization (Phase 11)
+  Global Optimization (Phase 12)
+  Global Optimization (Phase 13)
+  Global Optimization (Phase 14)
+  Global Optimization (Phase 15)
+  Global Optimization (Phase 16)
+  Global Optimization (Phase 17)
+  Global Optimization (Phase 18)
+  Global Optimization (Phase 19)
+  Global Optimization (Phase 20)
+  Global Optimization (Phase 21)
+  Global Optimization (Phase 22)
+  Global Optimization (Phase 23)
+  Global Optimization (Phase 24)
+  Global Optimization (Phase 25)
+  Global Optimization (Phase 26)
+  Global Optimization (Phase 27)
+  Global Optimization (Phase 28)
+  Global Optimization (Phase 29)
+  Global Optimization (Phase 30)
+  Global Optimization (Phase 31)
+  Mapping 'conv_128_32_opt_DP_OP_83J2_123_3500_1'
+    0:00:19   21801.1      0.11       4.6       0.0                           448665.0000
+
+
+
+  Beginning Delay Optimization Phase
+  ----------------------------------
+
+                                  TOTAL
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:19   21801.1      0.11       4.6       0.0                           448665.0000
+    0:00:19   21801.1      0.11       4.6       0.0                           448665.0000
+    0:00:20   21800.0      0.11       4.6       0.0                           448540.9375
+    0:00:20   21800.0      0.11       4.6       0.0                           448540.9375
+    0:00:20   21835.9      0.10       4.4       0.0                           449689.9688
+    0:00:20   21835.9      0.10       4.4       0.0                           449689.9688
+    0:00:20   21835.9      0.10       4.4       0.0                           449689.9688
+    0:00:20   21835.9      0.10       4.4       0.0                           449689.9688
+    0:00:20   21835.9      0.10       4.4       0.0                           449689.9688
+    0:00:20   21835.9      0.10       4.4       0.0                           449689.9688
+    0:00:23   21935.4      0.05       1.4       1.7                           453308.4688
+    0:00:23   21935.4      0.05       1.4       1.7                           453308.4688
+    0:00:23   21935.4      0.05       1.4       1.7                           453308.4688
+
+  Beginning Delay Optimization
+  ----------------------------
+    0:00:23   21933.0      0.04       1.2       1.7                           453241.2812
+    0:00:24   21943.1      0.03       0.7       3.3                           453649.3438
+    0:00:24   21943.1      0.03       0.7       3.3                           453649.3438
+    0:00:24   21943.1      0.03       0.7       3.3                           453649.3438
+    0:00:24   21943.1      0.03       0.7       3.3                           453649.3438
+    0:00:26   21948.7      0.03       0.6       3.3                           453823.6250
+    0:00:26   21948.7      0.03       0.6       3.3                           453823.6250
+    0:00:26   21948.7      0.03       0.6       3.3                           453823.6250
+
+
+  Beginning Design Rule Fixing  (max_capacitance)
+  ----------------------------
+
+                                  TOTAL
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:26   21948.7      0.03       0.6       3.3                           453823.6250
+  Global Optimization (Phase 32)
+  Global Optimization (Phase 33)
+  Global Optimization (Phase 34)
+    0:00:27   21955.9      0.00       0.0       0.0                           453976.5625
+    0:00:28   21976.1      0.00       0.0       0.0                           454567.0938
+
+                                  TOTAL
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:28   21976.1      0.00       0.0       0.0                           454567.0938
+    0:00:29   21974.3      0.00       0.0       0.0                           454428.5938
+
+
+  Beginning Leakage Power Optimization  (max_leakage_power 0)
+  ------------------------------------
+
+                                  TOTAL
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:29   21972.9      0.00       0.0       0.0                           454404.4062
+  Global Optimization (Phase 35)
+  Global Optimization (Phase 36)
+  Global Optimization (Phase 37)
+  Global Optimization (Phase 38)
+  Global Optimization (Phase 39)
+  Global Optimization (Phase 40)
+  Global Optimization (Phase 41)
+  Global Optimization (Phase 42)
+  Global Optimization (Phase 43)
+  Global Optimization (Phase 44)
+  Global Optimization (Phase 45)
+  Global Optimization (Phase 46)
+  Global Optimization (Phase 47)
+  Global Optimization (Phase 48)
+  Global Optimization (Phase 49)
+    0:00:32   21797.1      0.00       0.0       0.0                           447489.3438
+    0:00:32   21797.1      0.00       0.0       0.0                           447489.3438
+    0:00:32   21797.1      0.00       0.0       0.0                           447489.3438
+    0:00:33   21793.1      0.00       0.0       0.0                           446217.7188
+    0:00:33   21793.1      0.00       0.0       0.0                           446217.7188
+    0:00:33   21793.1      0.00       0.0       0.0                           446217.7188
+    0:00:33   21793.1      0.00       0.0       0.0                           446217.7188
+    0:00:33   21793.1      0.00       0.0       0.0                           446217.7188
+    0:00:33   21793.1      0.00       0.0       0.0                           446217.7188
+    0:00:33   21793.1      0.00       0.0       0.0                           446217.7188
+    0:00:33   21793.1      0.00       0.0       0.0                           446217.7188
+    0:00:33   21793.1      0.00       0.0       0.0                           446217.7188
+    0:00:33   21793.1      0.00       0.0       0.0                           446217.7188
+    0:00:33   21793.1      0.00       0.0       0.0                           446217.7188
+    0:00:33   21793.1      0.00       0.0       0.0                           446217.7188
+    0:00:33   21793.1      0.00       0.0       0.0                           446217.7188
+    0:00:33   21793.1      0.00       0.0       0.0                           446217.7188
+    0:00:33   21793.1      0.00       0.0       0.0                           446217.7188
+    0:00:33   21793.1      0.00       0.0       0.0                           446217.7188
+    0:00:33   21793.1      0.00       0.0       0.0                           446217.7188
+    0:00:33   21793.1      0.00       0.0       0.0                           446217.7188
+    0:00:33   21793.1      0.00       0.0       0.0                           446217.7188
+
+                                  TOTAL
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:33   21793.1      0.00       0.0       0.0                           446217.7188
+    0:00:34   21752.9      0.00       0.0       0.0                           446131.1250
+    0:00:34   21752.9      0.00       0.0       0.0                           446131.1250
+    0:00:34   21752.9      0.00       0.0       0.0                           446131.1250
+    0:00:35   21752.1      0.00       0.0       0.0                           445713.3125
+    0:00:36   21741.8      0.00       0.0       0.0                           445477.6562
+    0:00:36   21741.8      0.00       0.0       0.0                           445477.6562
+    0:00:36   21732.7      0.00       0.0       0.0                           445216.5000
+Loading db file '/home/home4/pmilder/ese507/synthesis/lib/NangateOpenCellLibrary_typical.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios
+
+
+  Optimization Complete
+  ---------------------
+Warning: Design 'conv_128_32_opt' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+     Net 'DP1/DATA_MEM/clk': 2721 load(s), 1 driver(s)
+Information: State dependent leakage is now switched from off to on.
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+1
+report_area
+
+****************************************
+Report : area
+Design : conv_128_32_opt
+Version: J-2014.09-SP5-2
+Date   : Thu Oct 31 03:13:57 2019
+****************************************
+
+Information: Updating design information... (UID-85)
+Warning: Design 'conv_128_32_opt' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+Library(s) Used:
+
+    NangateOpenCellLibrary (File: /home/home4/pmilder/ese507/synthesis/lib/NangateOpenCellLibrary_typical.db)
+
+Number of ports:                           45
+Number of nets:                          3699
+Number of cells:                         3527
+Number of combinational cells:           2862
+Number of sequential cells:               663
+Number of macros/black boxes:               0
+Number of buf/inv:                        833
+Number of references:                      41
+
+Combinational area:               9307.606178
+Buf/Inv area:                     1805.342014
+Noncombinational area:           12425.125597
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (Wire load has zero net area)
+
+Total cell area:                 21732.731776
+Total area:                 undefined
+1
+report_power
+
+****************************************
+Report : power
+        -analysis_effort low
+Design : conv_128_32_opt
+Version: J-2014.09-SP5-2
+Date   : Thu Oct 31 03:13:57 2019
+****************************************
+
+
+Library(s) Used:
+
+    NangateOpenCellLibrary (File: /home/home4/pmilder/ese507/synthesis/lib/NangateOpenCellLibrary_typical.db)
+
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+Design        Wire Load Model            Library
+------------------------------------------------
+conv_128_32_opt        5K_hvratio_1_1    NangateOpenCellLibrary
+
+
+Global Operating Voltage = 1.1
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000ff
+    Time Units = 1ns
+    Dynamic Power Units = 1uW    (derived from V,C,T units)
+    Leakage Power Units = 1nW
+
+
+  Cell Internal Power  =  17.5218 mW   (99%)
+  Net Switching Power  = 217.7322 uW    (1%)
+                         ---------
+Total Dynamic Power    =  17.7395 mW  (100%)
+
+Cell Leakage Power     = 381.3505 uW
+
+
+                 Internal         Switching           Leakage            Total
+Power Group      Power            Power               Power              Power   (   %    )  Attrs
+--------------------------------------------------------------------------------------------------
+io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
+clock_network      0.0000            0.0000            0.0000            0.0000  (   0.00%)
+register       1.7414e+04           17.7011        2.0917e+05        1.7641e+04  (  97.35%)
+sequential         0.2190        5.9632e-02          237.8982            0.5165  (   0.00%)
+combinational    107.7127          199.9720        1.7194e+05          479.6287  (   2.65%)
+--------------------------------------------------------------------------------------------------
+Total          1.7522e+04 uW       217.7328 uW     3.8135e+05 nW     1.8121e+04 uW
+1
+report_timing
+
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : conv_128_32_opt
+Version: J-2014.09-SP5-2
+Date   : Thu Oct 31 03:13:57 2019
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: CP1/cntrl_state_q_reg[0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: DP1/DATA_MEM/data_out_reg[0]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  conv_128_32_opt    5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  CP1/cntrl_state_q_reg[0]/CK (DFFR_X1)                   0.00 #     0.00 r
+  CP1/cntrl_state_q_reg[0]/QN (DFFR_X1)                   0.08       0.08 r
+  U2207/ZN (AND2_X1)                                      0.05       0.13 r
+  U2309/ZN (AND2_X4)                                      0.06       0.20 r
+  U2340/ZN (INV_X2)                                       0.06       0.26 f
+  U2098/ZN (AOI22_X1)                                     0.13       0.40 r
+  DP1/DATA_MEM/addr[2] (memory_WIDTH8_SIZE128_LOGSIZE7_1)
+                                                          0.00       0.40 r
+  DP1/DATA_MEM/U53/ZN (INV_X1)                            0.06       0.46 f
+  DP1/DATA_MEM/U88/ZN (NAND3_X1)                          0.06       0.52 r
+  DP1/DATA_MEM/U115/ZN (NOR2_X1)                          0.03       0.55 f
+  DP1/DATA_MEM/U116/Z (CLKBUF_X1)                         0.10       0.65 f
+  DP1/DATA_MEM/U776/ZN (AOI22_X1)                         0.07       0.72 r
+  DP1/DATA_MEM/U779/ZN (NAND4_X1)                         0.04       0.76 f
+  DP1/DATA_MEM/U790/ZN (OR4_X1)                           0.11       0.87 f
+  DP1/DATA_MEM/U812/ZN (AOI22_X1)                         0.05       0.92 r
+  DP1/DATA_MEM/U854/ZN (NAND2_X1)                         0.03       0.95 f
+  DP1/DATA_MEM/data_out_reg[0]/D (DFF_X1)                 0.01       0.96 f
+  data arrival time                                                  0.96
+
+  clock clk (rise edge)                                   1.00       1.00
+  clock network delay (ideal)                             0.00       1.00
+  DP1/DATA_MEM/data_out_reg[0]/CK (DFF_X1)                0.00       1.00 r
+  library setup time                                     -0.04       0.96
+  data required time                                                 0.96
+  --------------------------------------------------------------------------
+  data required time                                                 0.96
+  data arrival time                                                 -0.96
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00

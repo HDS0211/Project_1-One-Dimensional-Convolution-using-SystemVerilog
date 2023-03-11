@@ -1,0 +1,647 @@
+ Design Compiler Graphical
+                            DC Ultra (TM)
+                             DFTMAX (TM)
+                         Power Compiler (TM)
+                           DesignWare (R)
+                           DC Expert (TM)
+                         Design Vision (TM)
+                          HDL Compiler (TM)
+                         VHDL Compiler (TM)
+                            DFT Compiler
+                        Library Compiler (TM)
+                         Design Compiler(R)
+
+         Version J-2014.09-SP5-2 for RHEL64 -- Jul 11, 2015
+               Copyright (c) 1988-2015 Synopsys, Inc.
+
+This software and the associated documentation are confidential and
+proprietary to Synopsys, Inc. Your use or disclosure of this software
+is subject to the terms and conditions of a written license agreement
+between you, or your company, and Synopsys, Inc.
+
+Initializing...
+##############################################
+# Setup: fill out the following parameters: name of clock signal, cloc                                                                                                k period (ns),
+# reset signal name (if used), name of top-level module, name of sourc                                                                                                e file
+set CLK_NAME "clk";
+clk
+set CLK_PERIOD 1;
+1
+set RST_NAME "reset";
+reset
+set TOP_MOD_NAME "conv_8_4";
+conv_8_4
+set SRC_FILE [list "accumulator.sv" "control.sv" "control_acc.sv" "con                                                                                                trol_f.sv" "control_mem_rd.sv" "control_x.sv" "conv_8_4.sv" "datapath.                                                                                                sv" "memory.sv"];
+accumulator.sv control.sv control_acc.sv control_f.sv control_mem_rd.s                                                                                                v control_x.sv conv_8_4.sv datapath.sv memory.sv
+# If you have multiple source files, change the line above to list the                                                                                                m all like this:
+# set SRC_FILE [list "file1.sv" "file2.sv"];
+###############################################
+source setupdc.tcl
+NangateOpenCellLibrary_typical.db dw_foundation.sldb
+file mkdir work_synth
+define_design_lib WORK -path work_synth
+1
+analyze $SRC_FILE -format sverilog
+Running PRESTO HDLC
+Searching for ./accumulator.sv
+Searching for ./control.sv
+Searching for ./control_acc.sv
+Searching for ./control_f.sv
+Searching for ./control_mem_rd.sv
+Searching for ./control_x.sv
+Searching for ./conv_8_4.sv
+Searching for ./datapath.sv
+Searching for ./memory.sv
+Compiling source file ./accumulator.sv
+Compiling source file ./control.sv
+Compiling source file ./control_acc.sv
+Compiling source file ./control_f.sv
+Compiling source file ./control_mem_rd.sv
+Compiling source file ./control_x.sv
+Compiling source file ./conv_8_4.sv
+Compiling source file ./datapath.sv
+Compiling source file ./memory.sv
+Presto compilation completed successfully.
+Loading db file '/home/home4/pmilder/ese507/synthesis/lib/NangateOpenC                                                                                                ellLibrary_typical.db'
+Loading db file '/usr/local/synopsys/syn/libraries/syn/dw_foundation.s                                                                                                ldb'
+1
+elaborate -work WORK $TOP_MOD_NAME
+Loading db file '/usr/local/synopsys/syn/libraries/syn/gtech.db'
+Loading db file '/usr/local/synopsys/syn/libraries/syn/standard.sldb'
+  Loading link library 'NangateOpenCellLibrary'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+Presto compilation completed successfully.
+Elaborated 1 design.
+Current design is now 'conv_8_4'.
+Information: Building the design 'datapath' instantiated from design '                                                                                                conv_8_4' with
+        the parameters "DATA_N=8,FILTER_N=4,LG_DATA_N=3,LG_FILTER_N=2"                                                                                                . (HDL-193)
+Warning:  ./datapath.sv:89: unsigned to signed assignment occurs. (VER                                                                                                -318)
+Presto compilation completed successfully.
+Information: Building the design 'control' instantiated from design 'c                                                                                                onv_8_4' with
+        the parameters "DATA_N=8,FILTER_N=4,CONV_N=5,LG_DATA_N=3,LG_FI                                                                                                LTER_N=2,LG_CONV_N=3". (HDL-193)
+
+Statistics for case statements in always block at line 97 in file
+        './control.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            98            |     no/auto      |
+===============================================
+
+Inferred memory devices in process
+        in routine control_DATA_N8_LG_DATA_N3_FILTER_N4_LG_FILTER_N2_C                                                                                                ONV_N5_LG_CONV_N3 line 77 in file
+                './control.sv'.
+======================================================================                                                                                                =========
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR |                                                                                                 SS | ST |
+======================================================================                                                                                                =========
+|  cntrl_state_q_reg  | Flip-flop |   3   |  Y  | N  | Y  | N  | N  |                                                                                                 N  | N  |
+======================================================================                                                                                                =========
+
+Inferred memory devices in process
+        in routine control_DATA_N8_LG_DATA_N3_FILTER_N4_LG_FILTER_N2_C                                                                                                ONV_N5_LG_CONV_N3 line 87 in file
+                './control.sv'.
+======================================================================                                                                                                =========
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR |                                                                                                 SS | ST |
+======================================================================                                                                                                =========
+|   comp_cyc_q_reg    | Flip-flop |   3   |  Y  | N  | Y  | N  | N  |                                                                                                 N  | N  |
+======================================================================                                                                                                =========
+
+Inferred memory devices in process
+        in routine control_DATA_N8_LG_DATA_N3_FILTER_N4_LG_FILTER_N2_C                                                                                                ONV_N5_LG_CONV_N3 line 97 in file
+                './control.sv'.
+======================================================================                                                                                                =====
+|    Register Name    | Type  | Width | Bus | MB | AR | AS | SR | SS |                                                                                                 ST |
+======================================================================                                                                                                =====
+|   cntrl_state_reg   | Latch |   3   |  Y  | N  | N  | N  | -  | -  |                                                                                                 -  |
+======================================================================                                                                                                =====
+Warning:  ./control.sv:97: Netlist for always_comb block contains a la                                                                                                tch. (ELAB-974)
+Presto compilation completed successfully.
+Information: Building the design 'memory' instantiated from design 'da                                                                                                tapath_DATA_N8_FILTER_N4_LG_DATA_N3_LG_FILTER_N2' with
+        the parameters "WIDTH=8,SIZE=8,LOGSIZE=3". (HDL-193)
+
+Inferred memory devices in process
+        in routine memory_WIDTH8_SIZE8_LOGSIZE3 line 16 in file
+                './memory.sv'.
+======================================================================                                                                                                =========
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR |                                                                                                 SS | ST |
+======================================================================                                                                                                =========
+|    data_out_reg     | Flip-flop |   8   |  Y  | N  | N  | N  | N  |                                                                                                 N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  |                                                                                                 N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  |                                                                                                 N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  |                                                                                                 N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  |                                                                                                 N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  |                                                                                                 N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  |                                                                                                 N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  |                                                                                                 N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  |                                                                                                 N  | N  |
+======================================================================                                                                                                =========
+Statistics for MUX_OPs
+======================================================================                                                                                                ====
+|        block name/line          | Inputs | Outputs | # sel inputs |                                                                                                 MB |
+======================================================================                                                                                                ====
+| memory_WIDTH8_SIZE8_LOGSIZE3/17 |   8    |    8    |      3       |                                                                                                 N  |
+======================================================================                                                                                                ====
+Presto compilation completed successfully.
+Information: Building the design 'memory' instantiated from design 'da                                                                                                tapath_DATA_N8_FILTER_N4_LG_DATA_N3_LG_FILTER_N2' with
+        the parameters "WIDTH=8,SIZE=4,LOGSIZE=2". (HDL-193)
+
+Inferred memory devices in process
+        in routine memory_WIDTH8_SIZE4_LOGSIZE2 line 16 in file
+                './memory.sv'.
+======================================================================                                                                                                =========
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR |                                                                                                 SS | ST |
+======================================================================                                                                                                =========
+|    data_out_reg     | Flip-flop |   8   |  Y  | N  | N  | N  | N  |                                                                                                 N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  |                                                                                                 N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  |                                                                                                 N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  |                                                                                                 N  | N  |
+|       mem_reg       | Flip-flop |   8   |  Y  | N  | N  | N  | N  |                                                                                                 N  | N  |
+======================================================================                                                                                                =========
+Statistics for MUX_OPs
+======================================================================                                                                                                ====
+|        block name/line          | Inputs | Outputs | # sel inputs |                                                                                                 MB |
+======================================================================                                                                                                ====
+| memory_WIDTH8_SIZE4_LOGSIZE2/17 |   4    |    8    |      2       |                                                                                                 N  |
+======================================================================                                                                                                ====
+Presto compilation completed successfully.
+Information: Building the design 'accumulator'. (HDL-193)
+
+Inferred memory devices in process
+        in routine accumulator line 36 in file
+                './accumulator.sv'.
+======================================================================                                                                                                =========
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR |                                                                                                 SS | ST |
+======================================================================                                                                                                =========
+|   acc_data_q_reg    | Flip-flop |  18   |  Y  | N  | Y  | N  | N  |                                                                                                 N  | N  |
+======================================================================                                                                                                =========
+Presto compilation completed successfully.
+Information: Building the design 'control_x' instantiated from design                                                                                                 'control_DATA_N8_LG_DATA_N3_FILTER_N4_LG_FILTER_N2_CONV_N5_LG_CONV_N3'                                                                                                 with
+        the parameters "DATA_N=8,LG_DATA_N=3". (HDL-193)
+
+Inferred memory devices in process
+        in routine control_x_DATA_N8_LG_DATA_N3 line 41 in file
+                './control_x.sv'.
+======================================================================                                                                                                =========
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR |                                                                                                 SS | ST |
+======================================================================                                                                                                =========
+|     addr_q_reg      | Flip-flop |   3   |  Y  | N  | Y  | N  | N  |                                                                                                 N  | N  |
+======================================================================                                                                                                =========
+
+Inferred memory devices in process
+        in routine control_x_DATA_N8_LG_DATA_N3 line 51 in file
+                './control_x.sv'.
+======================================================================                                                                                                =========
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR |                                                                                                 SS | ST |
+======================================================================                                                                                                =========
+|    done_x_q_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  |                                                                                                 N  | N  |
+======================================================================                                                                                                =========
+Presto compilation completed successfully.
+Information: Building the design 'control_f' instantiated from design                                                                                                 'control_DATA_N8_LG_DATA_N3_FILTER_N4_LG_FILTER_N2_CONV_N5_LG_CONV_N3'                                                                                                 with
+        the parameters "FILTER_N=4,LG_FILTER_N=2". (HDL-193)
+
+Inferred memory devices in process
+        in routine control_f_FILTER_N4_LG_FILTER_N2 line 41 in file
+                './control_f.sv'.
+======================================================================                                                                                                =========
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR |                                                                                                 SS | ST |
+======================================================================                                                                                                =========
+|     addr_q_reg      | Flip-flop |   2   |  Y  | N  | Y  | N  | N  |                                                                                                 N  | N  |
+======================================================================                                                                                                =========
+
+Inferred memory devices in process
+        in routine control_f_FILTER_N4_LG_FILTER_N2 line 51 in file
+                './control_f.sv'.
+======================================================================                                                                                                =========
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR |                                                                                                 SS | ST |
+======================================================================                                                                                                =========
+|    done_f_q_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  |                                                                                                 N  | N  |
+======================================================================                                                                                                =========
+Presto compilation completed successfully.
+Information: Building the design 'control_acc' instantiated from desig                                                                                                n 'control_DATA_N8_LG_DATA_N3_FILTER_N4_LG_FILTER_N2_CONV_N5_LG_CONV_N                                                                                                3' with
+        the parameters "FILTER_N=4,LG_FILTER_N=2". (HDL-193)
+
+Inferred memory devices in process
+        in routine control_acc_FILTER_N4_LG_FILTER_N2 line 39 in file
+                './control_acc.sv'.
+======================================================================                                                                                                =========
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR |                                                                                                 SS | ST |
+======================================================================                                                                                                =========
+|    cyc_cnt_q_reg    | Flip-flop |   2   |  Y  | N  | Y  | N  | N  |                                                                                                 N  | N  |
+======================================================================                                                                                                =========
+
+Inferred memory devices in process
+        in routine control_acc_FILTER_N4_LG_FILTER_N2 line 51 in file
+                './control_acc.sv'.
+======================================================================                                                                                                =========
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR |                                                                                                 SS | ST |
+======================================================================                                                                                                =========
+|    cnt_en_q_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  |                                                                                                 N  | N  |
+======================================================================                                                                                                =========
+Presto compilation completed successfully.
+Information: Building the design 'control_mem_rd' instantiated from de                                                                                                sign 'control_DATA_N8_LG_DATA_N3_FILTER_N4_LG_FILTER_N2_CONV_N5_LG_CON                                                                                                V_N3' with
+        the parameters "DATA_N=8,FILTER_N=4,LG_DATA_N=3,LG_FILTER_N=2,                                                                                                LG_CONV_N=3". (HDL-193)
+
+Inferred memory devices in process
+        in routine control_mem_rd_DATA_N8_LG_DATA_N3_FILTER_N4_LG_FILT                                                                                                ER_N2_LG_CONV_N3 line 42 in file
+                './control_mem_rd.sv'.
+======================================================================                                                                                                =========
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR |                                                                                                 SS | ST |
+======================================================================                                                                                                =========
+|   rd_addr_x_q_reg   | Flip-flop |   3   |  Y  | N  | Y  | N  | N  |                                                                                                 N  | N  |
+======================================================================                                                                                                =========
+
+Inferred memory devices in process
+        in routine control_mem_rd_DATA_N8_LG_DATA_N3_FILTER_N4_LG_FILT                                                                                                ER_N2_LG_CONV_N3 line 54 in file
+                './control_mem_rd.sv'.
+======================================================================                                                                                                =========
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR |                                                                                                 SS | ST |
+======================================================================                                                                                                =========
+|   rd_addr_f_q_reg   | Flip-flop |   2   |  Y  | N  | Y  | N  | N  |                                                                                                 N  | N  |
+======================================================================                                                                                                =========
+
+Inferred memory devices in process
+        in routine control_mem_rd_DATA_N8_LG_DATA_N3_FILTER_N4_LG_FILT                                                                                                ER_N2_LG_CONV_N3 line 66 in file
+                './control_mem_rd.sv'.
+======================================================================                                                                                                =========
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR |                                                                                                 SS | ST |
+======================================================================                                                                                                =========
+| incr_comp_cyc_q_reg | Flip-flop |   1   |  N  | N  | Y  | N  | N  |                                                                                                 N  | N  |
+======================================================================                                                                                                =========
+Presto compilation completed successfully.
+1
+###### CLOCKS AND PORTS #######
+set CLK_PORT [get_ports $CLK_NAME]
+{clk}
+set TMP1 [remove_from_collection [all_inputs] $CLK_PORT]
+{reset s_valid_x s_data_in_x[7] s_data_in_x[6] s_data_in_x[5] s_data_i                                                                                                n_x[4] s_data_in_x[3] s_data_in_x[2] s_data_in_x[1] s_data_in_x[0] s_v                                                                                                alid_f s_data_in_f[7] s_data_in_f[6] s_data_in_f[5] s_data_in_f[4] s_d                                                                                                ata_in_f[3] s_data_in_f[2] s_data_in_f[1] s_data_in_f[0] m_ready_y}
+set INPUTS [remove_from_collection $TMP1 $RST_NAME]
+{s_valid_x s_data_in_x[7] s_data_in_x[6] s_data_in_x[5] s_data_in_x[4]                                                                                                 s_data_in_x[3] s_data_in_x[2] s_data_in_x[1] s_data_in_x[0] s_valid_f                                                                                                 s_data_in_f[7] s_data_in_f[6] s_data_in_f[5] s_data_in_f[4] s_data_in                                                                                                _f[3] s_data_in_f[2] s_data_in_f[1] s_data_in_f[0] m_ready_y}
+create_clock -period $CLK_PERIOD [get_ports clk]
+1
+# set delay for inputs to be 0.2ns
+set_input_delay 0.2 -max -clock clk $INPUTS
+1
+set_output_delay 0.2 -max -clock clk [all_outputs]
+1
+###### OPTIMIZATION #######
+set_max_area 0
+1
+###### RUN #####
+compile_ultra
+Information: Performing power optimization. (PWR-850)
+Analyzing: "/home/home4/pmilder/ese507/synthesis/lib/NangateOpenCellLi                                                                                                brary_typical.db"
+Library analysis succeeded.
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | J-2014.09-DWBB_201409.5.2 |   *     |
+| Licensed DW Building Blocks        | J-2014.09-DWBB_201409.5.2 |   *     |
+============================================================================
+
+Information: Sequential output inversion is enabled.  SVF file must be used for formal verification. (OPT-1208)
+
+Information: There are 6 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+
+Loaded alib file './alib-52/NangateOpenCellLibrary_typical.db.alib'
+  Building model 'DW01_NAND2'
+Information: Ungrouping hierarchy DP0 before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy CP0 before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy DP0/DATA_MEM before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy DP0/FILTER_MEM before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy DP0/ACC before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy CP0/CNTRL_X before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy CP0/CNTRL_F before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy CP0/CNTRL_ACC before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy CP0/CNTRL_MEM_RD before Pass 1 (OPT-776)
+Information: Ungrouping 9 of 10 hierarchies before Pass 1 (OPT-775)
+Information: State dependent leakage is now switched from on to off.
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'conv_8_4'
+Information: Added key list 'DesignWare' to design 'conv_8_4'. (DDB-72)
+ Implement Synthetic for 'conv_8_4'.
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+
+  Beginning Mapping Optimizations  (Ultra High effort)
+  -------------------------------
+  Mapping Optimization (Phase 1)
+
+                                  TOTAL
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:03    1725.8      0.13       1.2       0.0                           38093.7773
+    0:00:03    1722.4      0.11       1.0       0.0                           37982.4062
+    0:00:03    1722.4      0.11       1.0       0.0                           37982.4062
+    0:00:03    1722.1      0.11       1.0       0.0                           37968.0508
+  Re-synthesis Optimization (Phase 1)
+  Re-synthesis Optimization (Phase 2)
+  Global Optimization (Phase 1)
+  Global Optimization (Phase 2)
+  Global Optimization (Phase 3)
+  Global Optimization (Phase 4)
+  Global Optimization (Phase 5)
+  Global Optimization (Phase 6)
+  Global Optimization (Phase 7)
+  Global Optimization (Phase 8)
+  Global Optimization (Phase 9)
+  Global Optimization (Phase 10)
+  Global Optimization (Phase 11)
+  Global Optimization (Phase 12)
+  Global Optimization (Phase 13)
+  Global Optimization (Phase 14)
+  Global Optimization (Phase 15)
+  Global Optimization (Phase 16)
+  Global Optimization (Phase 17)
+  Global Optimization (Phase 18)
+  Global Optimization (Phase 19)
+  Global Optimization (Phase 20)
+  Global Optimization (Phase 21)
+  Global Optimization (Phase 22)
+  Global Optimization (Phase 23)
+  Global Optimization (Phase 24)
+  Global Optimization (Phase 25)
+  Global Optimization (Phase 26)
+  Global Optimization (Phase 27)
+  Global Optimization (Phase 28)
+  Global Optimization (Phase 29)
+  Global Optimization (Phase 30)
+  Mapping 'conv_8_4_DP_OP_37J1_122_4588_1'
+    0:00:04    1526.6      0.08       0.7       5.6                           31272.6875
+
+
+
+  Beginning Delay Optimization Phase
+  ----------------------------------
+
+                                  TOTAL
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:04    1526.6      0.08       0.7       5.6                           31272.6875
+    0:00:04    1526.6      0.08       0.7       5.6                           31272.6875
+    0:00:04    1526.8      0.08       0.7       5.6                           31284.0859
+    0:00:04    1526.8      0.08       0.7       5.6                           31284.0859
+    0:00:05    1539.1      0.07       0.6       5.0                           31663.1094
+    0:00:05    1539.1      0.07       0.6       5.0                           31663.1094
+    0:00:05    1539.1      0.07       0.6       5.0                           31663.1094
+    0:00:05    1539.1      0.07       0.6       5.0                           31663.1094
+    0:00:05    1539.1      0.07       0.6       5.0                           31663.1094
+    0:00:05    1539.1      0.07       0.6       5.0                           31663.1094
+    0:00:05    1548.9      0.03       0.2       5.0                           31993.0840
+    0:00:05    1548.9      0.03       0.2       5.0                           31993.0840
+    0:00:06    1548.9      0.03       0.2       5.0                           31993.0840
+
+  Beginning Delay Optimization
+  ----------------------------
+    0:00:06    1550.2      0.02       0.1       5.0                           32058.5000
+    0:00:06    1554.5      0.02       0.1       5.0                           32161.2793
+    0:00:06    1554.5      0.02       0.1       5.0                           32161.2793
+    0:00:06    1555.3      0.01       0.1       5.0                           32176.4121
+    0:00:06    1555.0      0.01       0.1       5.0                           32139.7012
+    0:00:06    1555.8      0.01       0.0       5.0                           32181.1797
+    0:00:06    1555.8      0.01       0.0       5.0                           32181.1797
+    0:00:07    1555.8      0.01       0.0       5.0                           32181.1797
+
+
+  Beginning Design Rule Fixing  (max_capacitance)
+  ----------------------------
+
+                                  TOTAL
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:07    1555.8      0.01       0.0       5.0                           32181.1797
+  Global Optimization (Phase 31)
+  Global Optimization (Phase 32)
+  Global Optimization (Phase 33)
+    0:00:07    1554.5      0.00       0.0       0.0                           32195.2422
+    0:00:07    1554.5      0.00       0.0       0.0                           32195.2422
+
+                                  TOTAL
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:07    1554.5      0.00       0.0       0.0                           32195.2422
+    0:00:07    1549.7      0.00       0.0       0.0                           32041.5352
+
+
+  Beginning Leakage Power Optimization  (max_leakage_power 0)
+  ------------------------------------
+
+                                  TOTAL
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:07    1549.7      0.00       0.0       0.0                           32041.5352
+  Global Optimization (Phase 34)
+  Global Optimization (Phase 35)
+  Global Optimization (Phase 36)
+  Global Optimization (Phase 37)
+  Global Optimization (Phase 38)
+  Global Optimization (Phase 39)
+  Global Optimization (Phase 40)
+  Global Optimization (Phase 41)
+  Global Optimization (Phase 42)
+  Global Optimization (Phase 43)
+  Global Optimization (Phase 44)
+  Global Optimization (Phase 45)
+  Global Optimization (Phase 46)
+    0:00:07    1529.0      0.00       0.0       0.0                           31224.9980
+    0:00:07    1529.0      0.00       0.0       0.0                           31224.9980
+    0:00:07    1529.0      0.00       0.0       0.0                           31224.9980
+    0:00:07    1529.0      0.00       0.0       0.0                           31224.9980
+    0:00:07    1529.0      0.00       0.0       0.0                           31224.9980
+    0:00:07    1529.0      0.00       0.0       0.0                           31224.9980
+    0:00:07    1529.0      0.00       0.0       0.0                           31224.9980
+    0:00:07    1529.0      0.00       0.0       0.0                           31224.9980
+    0:00:07    1529.0      0.00       0.0       0.0                           31224.9980
+    0:00:07    1529.0      0.00       0.0       0.0                           31224.9980
+    0:00:07    1529.0      0.00       0.0       0.0                           31224.9980
+    0:00:07    1529.0      0.00       0.0       0.0                           31224.9980
+    0:00:07    1529.0      0.00       0.0       0.0                           31224.9980
+    0:00:07    1529.0      0.00       0.0       0.0                           31224.9980
+    0:00:07    1529.0      0.00       0.0       0.0                           31224.9980
+    0:00:07    1529.0      0.00       0.0       0.0                           31224.9980
+    0:00:07    1529.0      0.00       0.0       0.0                           31224.9980
+    0:00:07    1529.0      0.00       0.0       0.0                           31224.9980
+    0:00:07    1529.0      0.00       0.0       0.0                           31224.9980
+    0:00:07    1529.0      0.00       0.0       0.0                           31224.9980
+    0:00:07    1529.0      0.00       0.0       0.0                           31224.9980
+    0:00:07    1529.0      0.00       0.0       0.0                           31224.9980
+
+                                  TOTAL
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:07    1529.0      0.00       0.0       0.0                           31224.9980
+    0:00:07    1527.1      0.00       0.0       0.0                           31116.4648
+    0:00:07    1527.1      0.00       0.0       0.0                           31116.4648
+    0:00:07    1527.1      0.00       0.0       0.0                           31116.4648
+    0:00:07    1527.1      0.00       0.0       0.0                           31116.4648
+    0:00:08    1525.5      0.00       0.0       0.0                           31049.0605
+    0:00:08    1525.5      0.00       0.0       0.0                           31049.0605
+Loading db file '/home/home4/pmilder/ese507/synthesis/lib/NangateOpenCellLibrary_typical.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios
+
+
+  Optimization Complete
+  ---------------------
+Information: State dependent leakage is now switched from off to on.
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+1
+report_area
+
+****************************************
+Report : area
+Design : conv_8_4
+Version: J-2014.09-SP5-2
+Date   : Thu Oct 31 02:16:02 2019
+****************************************
+
+Information: Updating design information... (UID-85)
+Library(s) Used:
+
+    NangateOpenCellLibrary (File: /home/home4/pmilder/ese507/synthesis/lib/NangateOpenCellLibrary_typical.db)
+
+Number of ports:                           42
+Number of nets:                           945
+Number of cells:                          869
+Number of combinational cells:            714
+Number of sequential cells:               155
+Number of macros/black boxes:               0
+Number of buf/inv:                        166
+Number of references:                      32
+
+Combinational area:                796.670005
+Buf/Inv area:                       90.972001
+Noncombinational area:             728.839989
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (Wire load has zero net area)
+
+Total cell area:                  1525.509994
+Total area:                 undefined
+1
+report_power
+
+****************************************
+Report : power
+        -analysis_effort low
+Design : conv_8_4
+Version: J-2014.09-SP5-2
+Date   : Thu Oct 31 02:16:02 2019
+****************************************
+
+
+Library(s) Used:
+
+    NangateOpenCellLibrary (File: /home/home4/pmilder/ese507/synthesis/lib/NangateOpenCellLibrary_typical.db)
+
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+Design        Wire Load Model            Library
+------------------------------------------------
+conv_8_4               5K_hvratio_1_1    NangateOpenCellLibrary
+
+
+Global Operating Voltage = 1.1
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000ff
+    Time Units = 1ns
+    Dynamic Power Units = 1uW    (derived from V,C,T units)
+    Leakage Power Units = 1nW
+
+
+  Cell Internal Power  = 793.4045 uW   (87%)
+  Net Switching Power  = 121.5753 uW   (13%)
+                         ---------
+Total Dynamic Power    = 914.9797 uW  (100%)
+
+Cell Leakage Power     =  30.6139 uW
+
+
+                 Internal         Switching           Leakage            Total
+Power Group      Power            Power               Power              Power   (   %    )  Attrs
+--------------------------------------------------------------------------------------------------
+io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
+clock_network      0.0000            0.0000            0.0000            0.0000  (   0.00%)
+register         714.7927           15.1471        1.2127e+04          742.0670  (  78.48%)
+sequential         0.5456            0.1488          121.0126            0.8154  (   0.09%)
+combinational     78.0663          106.2794        1.8366e+04          202.7116  (  21.44%)
+--------------------------------------------------------------------------------------------------
+Total            793.4046 uW       121.5753 uW     3.0614e+04 nW       945.5940 uW
+1
+report_timing
+
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : conv_8_4
+Version: J-2014.09-SP5-2
+Date   : Thu Oct 31 02:16:02 2019
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: DP0/FILTER_MEM/data_out_reg[7]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: DP0/ACC/acc_data_q_reg[17]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  conv_8_4           5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  DP0/FILTER_MEM/data_out_reg[7]/CK (SDFF_X1)             0.00       0.00 r
+  DP0/FILTER_MEM/data_out_reg[7]/QN (SDFF_X1)             0.10       0.10 r
+  U492/ZN (XNOR2_X1)                                      0.07       0.17 r
+  U493/ZN (NAND2_X2)                                      0.06       0.22 f
+  U603/ZN (OAI22_X1)                                      0.06       0.29 r
+  U604/ZN (XNOR2_X1)                                      0.08       0.36 r
+  U630/ZN (XNOR2_X1)                                      0.07       0.43 r
+  U631/ZN (XNOR2_X1)                                      0.06       0.49 r
+  U633/S (FA_X1)                                          0.12       0.61 f
+  U638/ZN (NAND2_X1)                                      0.04       0.65 r
+  U640/ZN (OAI21_X1)                                      0.04       0.69 f
+  U833/ZN (AOI21_X1)                                      0.04       0.73 r
+  U834/ZN (OAI21_X1)                                      0.04       0.77 f
+  U864/ZN (AOI21_X1)                                      0.06       0.83 r
+  U897/ZN (OAI21_X1)                                      0.04       0.86 f
+  U901/ZN (XNOR2_X1)                                      0.06       0.92 f
+  U903/ZN (AOI21_X1)                                      0.04       0.96 r
+  DP0/ACC/acc_data_q_reg[17]/D (DFFS_X1)                  0.01       0.96 r
+  data arrival time                                                  0.96
+
+  clock clk (rise edge)                                   1.00       1.00
+  clock network delay (ideal)                             0.00       1.00
+  DP0/ACC/acc_data_q_reg[17]/CK (DFFS_X1)                 0.00       1.00 r
+  library setup time                                     -0.03       0.97
+  data required time                                                 0.97
+  --------------------------------------------------------------------------
+  data required time                                                 0.97
+  data arrival time                                                 -0.96
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00
